@@ -46,7 +46,7 @@ def demo_model_editing(
     print(pre_update_text)
 
     print_loud(f"Applying {alg_name} to model")
-    model_new, orig_weights = apply_method(
+    model_new, orig_weights, deltas = apply_method(
         model, tok, requests, hparams, return_orig_weights=True
     )
 
@@ -71,7 +71,7 @@ def demo_model_editing(
         for s, t in zip([prompt_str, post_str, pre_str], [prompt, post, pre]):
             print(s.ljust(pad_to), t)
 
-    return model_new, orig_weights
+    return model_new, orig_weights, deltas
 
 
 def load_alg(alg_name):
