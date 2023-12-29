@@ -33,6 +33,9 @@ def get_inv_cov(
     model_name = model.config._name_or_path.replace("/", "_")
     key = (model_name, layer_name)
 
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+
     if key not in inv_mom2_cache:
         print(
             f"Retrieving inverse covariance statistics for {model_name} @ {layer_name}. "
@@ -49,7 +52,7 @@ def get_inv_cov(
             precision=mom2_dtype,
         )
         inv_mom2_cache[key] = torch.inverse(
-            stat.mom2.moment().to("cuda")
+            stat.mom2.moment().to(device)
         ).float()  # Cast back to float32
 
     return inv_mom2_cache[key]

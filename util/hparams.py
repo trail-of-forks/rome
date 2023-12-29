@@ -1,5 +1,6 @@
 import json
 from dataclasses import dataclass
+import os
 
 
 @dataclass
@@ -10,7 +11,9 @@ class HyperParams:
 
     @classmethod
     def from_json(cls, fpath):
-        with open(fpath, "r") as f:
+        MODULE_FOLDER = os.path.join(os.path.dirname(__file__), "..")
+        print("MODULE_FOLDER", MODULE_FOLDER)
+        with open(os.path.join(MODULE_FOLDER + "/", fpath), "r") as f:
             data = json.load(f)
 
         return cls(**data)
